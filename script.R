@@ -1,5 +1,6 @@
 install.packages(c("pak", "gridExtra"))
 pak::pak("CREWdecisions/elicitr")
+
 library(elicitr)
 
 #create metadata object
@@ -23,10 +24,6 @@ my_elic_cont
 #plot raw values
 plot(my_elic_cont, round = 1, var = "var2")
 
-#plot with group mean
-plot(my_elic_cont, round = 1, var = "var2",
-     group = TRUE)
-
 #add data to metadata
 #round 2
 my_elic_cont <- cont_add_data(my_elic_cont,
@@ -36,14 +33,7 @@ my_elic_cont <- cont_add_data(my_elic_cont,
 #plot raw values next to round 1
 library(gridExtra)
 
-plot(my_elic_cont, round = 2,var = "var2",
-     group = TRUE)
-
-grid.arrange(plot(my_elic_cont, round = 1, var = "var2",
-                  group = TRUE),
-             plot(my_elic_cont, round = 2,var = "var2",
-                  group = TRUE),
-             nrow = 1)
+plot(my_elic_cont, round = 2,var = "var2")
 
 #sample from group data
 samp_cont <- cont_sample_data(my_elic_cont, round = 2)
@@ -54,16 +44,15 @@ samp_cont
 #plot as density vs round 2 raw data
 grid.arrange(plot(my_elic_cont, round = 2,var = "var2",
                   group = TRUE),
-             plot(samp_cont, var = "var2", type = "density"),
              plot(samp_cont, var = "var2", type = "density",
                   group = TRUE),
-             nrow = 2)
+             nrow = 1)
 
 #plot as density vs round 2 raw data + truth
-grid.arrange(plot(my_elic_cont, round = 2,var = "var2",
+grid.arrange(plot(my_elic_cont, round = 1,var = "var2",
                   group = TRUE,
                   truth = list(min = 10, max = 20, best = 15)),
-             plot(samp_cont, var = "var2", type = "density"),
-             plot(samp_cont, var = "var2", type = "density",
-                  group = TRUE),
-             nrow = 2)
+             plot(my_elic_cont, round = 2,var = "var2",
+                  group = TRUE,
+                  truth = list(min = 10, max = 20, best = 15)),
+             nrow = 1)
