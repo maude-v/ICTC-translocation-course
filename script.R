@@ -33,9 +33,6 @@ my_elic_cont <- cont_add_data(my_elic_cont,
                               data_source = "albatross_round2_nd.xlsx",
                               round = 2)
 
-#plot raw values next to round 1
-library(gridExtra)
-
 plot(my_elic_cont, round = 2,var = "survival")
 
 #sample from group data
@@ -45,9 +42,10 @@ samp_cont <- cont_sample_data(my_elic_cont, round = 2)
 samp_cont
 
 #plot as density vs round 2 raw data
-grid.arrange(plot(my_elic_cont, round = 2,var = "var2",
+library(gridExtra)
+grid.arrange(plot(my_elic_cont, round = 2,var = "survival",
                   group = TRUE),
-             plot(samp_cont, var = "var2", type = "density",
+             plot(samp_cont, var = "survival", type = "density",
                   group = TRUE),
              nrow = 1)
 
@@ -55,7 +53,7 @@ grid.arrange(plot(my_elic_cont, round = 2,var = "var2",
 grid.arrange(plot(my_elic_cont, round = 1,var = "var2",
                   group = TRUE,
                   truth = list(min = 10, max = 20, best = 15)),
-             plot(my_elic_cont, round = 2,var = "var2",
+             plot(my_elic_cont, round = 2,var = "survival",
                   group = TRUE,
                   truth = list(min = 10, max = 20, best = 15)),
              nrow = 1)
