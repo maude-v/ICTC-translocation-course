@@ -4,10 +4,10 @@ pak::pak("CREWdecisions/elicitr")
 library(elicitr)
 
 #create metadata object
-my_elic_cont <- cont_start(var_names = c("var1", "var2", "var3"),
-                           var_types = "ZNp",
-                           elic_types = "134",
-                           experts = 6)
+my_elic_cont <- cont_start(var_names = c("survival"),
+                           var_types = "p",
+                           elic_types = "4",
+                           experts = 11)
 
 #check metadata
 my_elic_cont
@@ -15,7 +15,7 @@ my_elic_cont
 #add data to metadata
 #round 1
 my_elic_cont <- cont_add_data(my_elic_cont,
-                              data_source = round_1,
+                              data_source = "albatross_round1_nd.xlsx",
                               round = 1)
 
 #check loaded metadata
