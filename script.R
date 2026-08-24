@@ -12,36 +12,39 @@ my_elic_cont <- cont_start(var_names = c("survival"),
 #check metadata
 my_elic_cont
 
-#add data to metadata
 #round 1
+#add data to metadata
 my_elic_cont <- cont_add_data(my_elic_cont,
                               data_source = "albatross_round1.xlsx",
                               round = 1)
 
+#remove first column from dataset
 my_elic_cont <- cont_add_data(my_elic_cont,
                               data_source = "albatross_round1_nd.xlsx",
                               round = 1)
 
 #check loaded metadata
 my_elic_cont
-#plot raw values
+
+#plot raw values for round 1
 plot(my_elic_cont, round = 1, var = "survival")
 
-#add data to metadata
 #round 2
+#add data to metadata
 my_elic_cont <- cont_add_data(my_elic_cont,
                               data_source = "albatross_round2_nd.xlsx",
                               round = 2)
 
+#plot raw values for round 2
 plot(my_elic_cont, round = 2,var = "survival")
 
-#sample from group data
+#sample from group data of round 2
 samp_cont <- cont_sample_data(my_elic_cont, round = 2)
 
 #view sampled data
-samp_cont
+View(samp_cont)
 
-#plot as density vs round 2 raw data
+#compare round 2 raw data and sampled group density mean
 library(gridExtra)
 grid.arrange(plot(my_elic_cont, round = 2,var = "survival",
                   group = TRUE),
@@ -49,11 +52,19 @@ grid.arrange(plot(my_elic_cont, round = 2,var = "survival",
                   group = TRUE),
              nrow = 1)
 
-#plot as density vs round 2 raw data + truth
+#compare round 1&2 raw data, group mean & truth
 grid.arrange(plot(my_elic_cont, round = 1,var = "survival",
                   group = TRUE,
-                  truth = list(min = 10, max = 20, best = 15)),
+                  truth = list(min = 0.05, max = 0.25, best = 0.15, conf = 100)),
              plot(my_elic_cont, round = 2,var = "survival",
                   group = TRUE,
-                  truth = list(min = 10, max = 20, best = 15)),
+                  truth = list(min = 0.05, max = 0.25, best = 0.15, conf = 100)),
+             nrow = 1)
+
+#compare sampled group density mean and round 2 raw data, group mean & truth
+grid.arrange(plot(samp_cont, var = "survival", type = "density",
+                  group = TRUE),
+             plot(my_elic_cont, round = 2,var = "survival",
+                  group = TRUE,
+                  truth = list(min = 0.05, max = 0.25, best = 0.15, conf = 100)),
              nrow = 1)
