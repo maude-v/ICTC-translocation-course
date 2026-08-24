@@ -39,7 +39,7 @@ my_elic_cont <- cont_add_data(my_elic_cont,
 plot(my_elic_cont, round = 2,var = "survival")
 
 #sample from group data of round 2
-samp_cont <- cont_sample_data(my_elic_cont, round = 2)
+samp_cont <- cont_sample_data(my_elic_cont, round = 2, n_votes = 1000)
 
 #view sampled data
 View(samp_cont)
