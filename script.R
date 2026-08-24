@@ -15,25 +15,24 @@ my_elic_cont
 #add data to metadata
 #round 1
 my_elic_cont <- cont_add_data(my_elic_cont,
-                              data_source = "albatross_round1_nd.xlsx",
+                              data_source = "https://docs.google.com/spreadsheets/d/16I5TDOAmWOr5bs_2paEJJe9mf47q8GgMzQAdw0Yvxb8/edit?resourcekey=&gid=1448395257#gid=1448395257",
                               round = 1)
 
 #check loaded metadata
 my_elic_cont
-
 #plot raw values
-plot(my_elic_cont, round = 1, var = "var2")
+plot(my_elic_cont, round = 1, var = "survival")
 
 #add data to metadata
 #round 2
 my_elic_cont <- cont_add_data(my_elic_cont,
-                              data_source = round_2,
+                              data_source = "https://docs.google.com/spreadsheets/d/18CfGFrBN61fL_gPoJ2ygJUcb-jd7qnTrnjpqIrXtmfY/edit?resourcekey=&gid=1237283237#gid=1237283237",
                               round = 2)
 
 #plot raw values next to round 1
 library(gridExtra)
 
-plot(my_elic_cont, round = 2,var = "var2")
+plot(my_elic_cont, round = 2,var = "survival")
 
 #sample from group data
 samp_cont <- cont_sample_data(my_elic_cont, round = 2)
