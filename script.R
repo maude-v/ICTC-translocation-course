@@ -50,7 +50,7 @@ grid.arrange(plot(my_elic_cont, round = 2,var = "survival",
              nrow = 1)
 
 #plot as density vs round 2 raw data + truth
-grid.arrange(plot(my_elic_cont, round = 1,var = "var2",
+grid.arrange(plot(my_elic_cont, round = 1,var = "survival",
                   group = TRUE,
                   truth = list(min = 10, max = 20, best = 15)),
              plot(my_elic_cont, round = 2,var = "survival",
