@@ -1,6 +1,5 @@
-install.packages("pak")
+install.packages(c("pak", "gridExtra"))
 pak::pak("CREWdecisions/elicitr")
-
 library(elicitr)
 
 #create metadata object
@@ -52,7 +51,7 @@ samp_cont <- cont_sample_data(my_elic_cont, round = 2)
 #view sampled data
 samp_cont
 
-#plot as violin
+#plot as density vs round 2 raw data
 grid.arrange(plot(my_elic_cont, round = 2,var = "var2",
                   group = TRUE),
              plot(samp_cont, var = "var2", type = "density"),
@@ -60,10 +59,11 @@ grid.arrange(plot(my_elic_cont, round = 2,var = "var2",
                   group = TRUE),
              nrow = 2)
 
-#plot as violin with group mean
-plot(samp_cont, var = "var2", type = "density",
-     group = TRUE)
-
-#plot as violin with group mean and truth?
-plot(samp_cont, var = "var2", type = "violin",
-     truth = list(min = 10, max = 20, best = 15))
+#plot as density vs round 2 raw data + truth
+grid.arrange(plot(my_elic_cont, round = 2,var = "var2",
+                  group = TRUE,
+                  truth = list(min = 10, max = 20, best = 15)),
+             plot(samp_cont, var = "var2", type = "density"),
+             plot(samp_cont, var = "var2", type = "density",
+                  group = TRUE),
+             nrow = 2)

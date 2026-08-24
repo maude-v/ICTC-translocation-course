@@ -1,0 +1,11 @@
+^elicitr\.Rproj$
+^\.Rproj\.user$
+^data-raw$
+^README\.Rmd$
+^.github
+^LICENSE\.md$
+^\.github$
+^\.lintr$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

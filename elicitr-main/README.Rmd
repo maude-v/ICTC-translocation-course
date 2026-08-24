@@ -1,0 +1,253 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit the .rmd file and then use devtools::build_readme() to update the md file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# elicitr <a href="#"><img src="man/figures/logo.png" height="138" align="right">
+<!-- badges: start -->
+[![Project Status](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
+[![R-CMD-check](https://github.com/CREWdecisions/elicitr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CREWdecisions/elicitr/actions/workflows/R-CMD-check.yaml)
+[![lint](https://github.com/CREWdecisions/elicitr/actions/workflows/lint.yaml/badge.svg)](https://github.com/CREWdecisions/elicitr/actions/workflows/lint.yaml)
+[![Codecov test coverage](https://codecov.io/gh/CREWdecisions/elicitr/graph/badge.svg)](https://app.codecov.io/gh/CREWdecisions/elicitr)
+<!-- badges: end -->
+
+## Description
+
+elicitr is an R package used to standardise, visualise and aggregate data from expert elicitation.\
+The package is in active development and will implement functions based on two formal elicitation methods:
+
+* Elicitation of continuous variables\
+  Adapted from Hemming, V. et al. (2018). A practical guide to structured expert elicitation using the IDEA protocol. Methods in Ecology and Evolution, 9(1), 169–180. https://doi.org/10.1111/2041-210X.12857
+* Elicitation of categorical data\
+  Adapted from Vernet, M. et al. (2024). Assessing invasion risks using EICAT-based expert elicitation: application to a conservation translocation. Biological Invasions, 26(8), 2707–2721. https://doi.org/10.1007/s10530-024-03341-2
+
+## Installation
+
+You can install the development version of elicitr from GitHub with:
+
+```r
+# install.packages("pak")
+pak::pak("CREWdecisions/elicitr")
+```
+
+## How elicitr works
+
+Just as one creates a form to collect estimates in an elicitation process, with elicitr one creates an object to store metadata information. This allows to check whether experts have given their answers in the expected way.\
+All the functions in the elicitr package start with two prefixes: `cont` and `cat`. This design choice is intended to enhance functions discovery. `cont` functions are used for the elicitation of continuous variables while `cat` functions for the elicitation of categorical variables.
+
+## Getting started
+
+```{r setup}
+library(elicitr)
+```
+
+### Elicitation of continuous variables
+
+Create the metadata object that will be able to hold the continuous data based on the elicitation design:
+
+```{r load-data}
+my_elic_cont <- cont_start(var_names = c("var1", "var2", "var3"),
+                           var_types = "ZNp",
+                           elic_types = "134",
+                           experts = 6)
+
+my_elic_cont
+```
+
+Load the continuous data into the metadata object
+(round_1 and round_2 data are provided as example datasets in the package).
+This is how your data should look like before they are added to the metadata:
+
+```{r example-data}
+round_1
+
+round_2
+```
+
+Load the data into the metadata object:
+Data can also be imported from a GoogleSheet. See the function documentation for more details.
+
+```{r add data to the metadata object}
+my_elic_cont <- cont_add_data(my_elic_cont,
+                              data_source = round_1,
+                              round = 1)
+my_elic_cont <- cont_add_data(my_elic_cont,
+                              data_source = round_2,
+                              round = 2)
+my_elic_cont
+```
+
+View the data stored in the elicitation object:
+
+```{r get data from elicitation object}
+cont_get_data(my_elic_cont, round = 1)
+```
+
+Plot raw data for variable 2 in round 1:
+
+```{r plot-raw-data}
+plot(my_elic_cont, round = 1, var = "var2")
+```
+
+When the elicitation process is part of a workshop and is used for demonstration, it can be useful to show a truth argumenton the plot. This argument can be added as a list of estimates.
+
+```{r plot-truth}
+plot(my_elic_cont, round = 1, var = "var2",
+     truth = list(min = 10, max = 20, best = 15))
+```
+
+Estimates can also be plotted grouped across experts:
+
+```{r plot-group}
+plot(my_elic_cont, round = 1, var = "var2",
+     truth = list(min = 10, max = 20, best = 15),
+     group = TRUE)
+```
+
+Data can be sampled from the elicitation object:
+
+```{r}
+samp_cont <- cont_sample_data(my_elic_cont, round = 2)
+
+samp_cont
+```
+
+And the sample summarised:
+
+```{r sample-summary}
+summary(samp_cont)
+```
+
+And plotted as violin plots:
+
+```{r sample-plot-violin}
+#| fig.alt: >
+#|  Violin plot of the sampled data for variable 2.
+plot(samp_cont, var = "var2", type = "violin")
+```
+
+Or plotted as density plots:
+
+```{r sample-plot-density}
+#| fig.alt: >
+#|  Density plot of the sampled data for variable 3.
+plot(samp_cont, var = "var3", type = "density")
+```
+
+And can be grouped across experts:
+
+```{r sample-plot-density-group}
+#| fig.alt: >
+#|  Density plot of the sampled data for variable 3, grouped by experts.
+plot(samp_cont, var = "var3", type = "density",
+     group = TRUE)
+```
+
+### Elicitation of categorical variables
+
+Create the metadata object that will be able to hold the categorical data based on the elicitation design:
+Categories correspond to impact levels and options to islands in Vernet, M. et al. (2024).
+
+```{r load-cat-data}
+my_elic_cat <- cat_start(topics = c("Mechanism1",
+                                    "Mechanism2",
+                                    "Mechanism3"),
+                         options = c("option_1",
+                                     "option_2",
+                                     "option_3",
+                                     "option_4"),
+                         categories = c("category_1",
+                                        "category_2",
+                                        "category_3",
+                                        "category_4",
+                                        "category_5"),
+                         experts = 6)
+
+my_elic_cat
+```
+
+Load the categorical data into the metadata object
+(topic_1, topic_2 and topic_3 data are provided as example datasets in the package): \
+Here is an example of data correctly formatted for an elicitation with two options and five categories (only one expert is shown):
+
+```
+name         option       category      confidence      estimate
+----------------------------------------------------------------
+expert 1     option 1     category 1            15          0.08
+expert 1     option 1     category 2            15          0
+expert 1     option 1     category 3            15          0.84
+expert 1     option 1     category 4            15          0.02
+expert 1     option 1     category 5            15          0.06
+expert 1     option 2     category 1            35          0.02
+expert 1     option 2     category 2            35          0.11
+expert 1     option 2     category 3            35          0.19
+expert 1     option 2     category 4            35          0.02
+expert 1     option 2     category 5            35          0.66
+```
+
+```{r add data to categirical metadata object}
+my_elic_cat <- cat_add_data(my_elic_cat,
+                            data_source = topic_1,
+                            topic = "Mechanism1")
+
+my_elic_cat <- cat_add_data(my_elic_cat,
+                            data_source = topic_2,
+                            topic = "Mechanism2")
+
+my_elic_cat <- cat_add_data(my_elic_cat,
+                            data_source = topic_3,
+                            topic = "Mechanism3")
+
+my_elic_cat
+```
+
+View the data stored in the elicitation object:
+
+```{r get data from categorical data}
+cat_get_data(my_elic_cat,
+             topic = "Mechanism1")
+```
+
+Data can be sampled from the elicitation object using the unweighted or weighted method:
+
+```{r sample data from categorical data}
+samp_cat_unweighted <- cat_sample_data(my_elic_cat,
+                            topic = "Mechanism1",
+                            method = "unweighted")
+samp_cat_unweighted
+
+samp_cat_weighted <- cat_sample_data(my_elic_cat,
+                            topic = "Mechanism3",
+                            method = "weighted")
+samp_cat_weighted
+```
+
+And the sample summarised:
+
+```{r sample-summary from categorical data}
+summary(samp_cat_unweighted, option = "option_2")
+```
+
+And plotted as violin plots:
+
+```{r sample-plot-categorical-data-violin}
+#| fig.alt: >
+#|  Density plot of the sampled data for variable 3.
+plot(samp_cat_unweighted,
+     title = "Sampled data for Mechanism1")
+```
+
+## Similar packages
+
+* {shelf} : Oakley, J. (2024). Package “SHELF” Tools to Support the Sheffield Elicitation Framework. https://doi.org/10.32614/CRAN.package.SHELF
+* {prefR} : Lepird, J. (2022). Package “prefeR” R Package for Pairwise Preference Elicitation. https://doi.org/10.32614/CRAN.package.prefeR

@@ -1,0 +1,50 @@
+url: https://crewdecisions.github.io/elicitr/
+template:
+  bootstrap: 5
+  math-rendering: mathjax
+  light-switch: true
+
+articles:
+- title: Analyses
+  navbar: ~
+  contents:
+  - continuous_variables
+  - categorical_variables
+
+reference:
+- title: Elicitation of continuous variables
+  desc: Functions for handling and plotting continuous variables.
+  contents:
+  - cont_start
+  - cont_add_data
+  - cont_get_data
+  - plot.elic_cont
+  - cont_sample_data
+  - summary.cont_sample
+  - plot.cont_sample
+
+- title: Elicitation of categorical data
+  desc: Functions for handling and plotting categorical data.
+  contents:
+  - cat_start
+  - cat_add_data
+  - cat_get_data
+  - cat_sample_data
+  - summary.cat_sample
+  - plot.cat_sample
+
+- title: Classes
+  desc: Description of the classes available in the package.
+  contents:
+  - elic_cont
+  - elic_cat
+
+- title: Simulated data
+  desc: >
+    Datasets of simulated data used for demonstration.
+  contents:
+  - round_1
+  - round_2
+  - topic_1
+  - topic_2
+  - topic_3
