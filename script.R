@@ -68,3 +68,5 @@ grid.arrange(plot(samp_cont, var = "survival", type = "density",
                   group = TRUE,
                   truth = list(min = 0.05, max = 0.25, best = 0.15, conf = 100)),
              nrow = 1)
+
+summary(sample_cont)
