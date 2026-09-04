@@ -46,11 +46,6 @@ View(samp_cont)
 
 #compare round 2 raw data and sampled group density mean
 library(gridExtra)
-grid.arrange(plot(my_elic_cont, round = 2,var = "survival",
-                  group = TRUE),
-             plot(samp_cont, var = "survival", type = "density",
-                  group = TRUE),
-             nrow = 1)
 
 #compare round 1&2 raw data, group mean & truth
 grid.arrange(plot(my_elic_cont, round = 1,var = "survival",
