@@ -50,10 +50,10 @@ library(gridExtra)
 #compare round 1&2 raw data, group mean & truth
 grid.arrange(plot(my_elic_cont, round = 1,var = "survival",
                   group = TRUE,
-                  truth = list(min = 0.05, max = 0.25, best = 0.15, conf = 100)),
+                  truth = list(min = 0.84, max = 0.976, best = 0.967, conf = 100)),
              plot(my_elic_cont, round = 2,var = "survival",
                   group = TRUE,
-                  truth = list(min = 0.05, max = 0.25, best = 0.15, conf = 100)),
+                  truth = list(min = 0.84, max = 0.976, best = 0.967, conf = 100)),
              nrow = 1)
 
 #compare sampled group density mean and round 2 raw data, group mean & truth
@@ -61,7 +61,7 @@ grid.arrange(plot(samp_cont, var = "survival", type = "density",
                   group = TRUE),
              plot(my_elic_cont, round = 2,var = "survival",
                   group = TRUE,
-                  truth = list(min = 0.05, max = 0.25, best = 0.15, conf = 100)),
+                  truth = listlist(min = 0.84, max = 0.976, best = 0.967, conf = 100)),
              nrow = 1)
 
 summary(samp_cont)
